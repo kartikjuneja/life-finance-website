@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Support - Life Finance</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* ============================================
+           SUPPORT PAGE SPECIFIC STYLES
+           ============================================ */
+        .support-hero {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.05) 0%, rgba(139, 92, 246, 0.02) 100%);
+            padding: var(--spacing-xxl) var(--spacing-lg);
+            text-align: center;
+            border-bottom: 1px solid var(--color-gray);
+        }
+
+        .support-hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .support-hero p {
+            font-size: 1.125rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .support-nav {
+            display: flex;
+            gap: var(--spacing-md);
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: var(--spacing-xl);
+            padding: var(--spacing-lg) 0;
+            border-bottom: 1px solid var(--color-gray);
+            position: sticky;
+            top: 60px;
+            background: var(--color-white);
+            z-index: 10;
+        }
+
+        .support-nav a {
+            padding: var(--spacing-sm) var(--spacing-md);
+            border-radius: var(--radius-md);
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .support-nav a:hover {
+            background: var(--color-gray-light);
+        }
+
+        .support-nav a.active {
+            background: var(--color-primary);
+            color: white;
+        }
+
+        .section {
+            padding: var(--spacing-xxl) var(--spacing-lg);
+            border-bottom: 1px solid var(--color-gray);
+            scroll-margin-top: 200px;
+        }
+
+        .section h2 {
+            margin-bottom: var(--spacing-lg);
+            color: var(--color-text);
+        }
+
+        .faq-item {
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .faq-question {
+            background: var(--color-gray-light);
+            padding: var(--spacing-md);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: var(--transition);
+        }
+
+        .faq-question:hover {
+            background: var(--color-gray);
+        }
+
+        .faq-toggle {
+            font-size: 1.25rem;
+            transition: var(--transition);
+        }
+
+        .faq-question.active .faq-toggle {
+            transform: rotate(180deg);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            background: var(--color-bg);
+            border-left: 3px solid var(--color-primary);
+            margin-top: var(--spacing-sm);
+        }
+
+        .faq-answer.active {
+            max-height: 500px;
+            padding: var(--spacing-md);
+        }
+
+        .step-card {
+            background: var(--color-white);
+            border: 1px solid var(--color-gray);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-lg);
+            margin-bottom: var(--spacing-lg);
+            transition: var(--transition);
+        }
+
+        .step-card:hover {
+            border-color: var(--color-primary);
+            box-shadow: 0 4px 20px rgba(139, 92, 246, 0.1);
+        }
+
+        .step-number {
+            display: inline-block;
+            background: var(--color-primary);
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            margin-bottom: var(--spacing-md);
+            font-size: 0.875rem;
+        }
+
+        .step-card h3 {
+            margin-bottom: var(--spacing-md);
+            color: var(--color-text);
+        }
+
+        .step-card p {
+            margin-bottom: var(--spacing-md);
+        }
+
+        .code-block {
+            background: var(--color-text);
+            color: var(--color-white);
+            padding: var(--spacing-md);
+            border-radius: var(--radius-md);
+            font-family: 'Monaco', 'Courier New', monospace;
+            font-size: 0.875rem;
+            overflow-x: auto;
+            margin: var(--spacing-md) 0;
+        }
+
+        .contact-box {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.1) 0%, rgba(139, 92, 246, 0.05) 100%);
+            border: 1px solid var(--color-primary);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-xl);
+            text-align: center;
+            margin-top: var(--spacing-xl);
+        }
+
+        .contact-box h3 {
+            color: var(--color-primary);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .contact-links {
+            display: flex;
+            gap: var(--spacing-lg);
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: var(--spacing-lg);
+        }
+
+        .contact-link {
+            padding: var(--spacing-md) var(--spacing-lg);
+            background: var(--color-primary);
+            color: white;
+            border-radius: var(--radius-md);
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .contact-link:hover {
+            background: var(--color-primary-light);
+            transform: translateY(-2px);
+        }
+
+        .roadmap-item {
+            display: flex;
+            gap: var(--spacing-lg);
+            margin-bottom: var(--spacing-lg);
+            padding-bottom: var(--spacing-lg);
+            border-bottom: 1px solid var(--color-gray);
+        }
+
+        .roadmap-item:last-child {
+            border-bottom: none;
+        }
+
+        .roadmap-status {
+            display: inline-block;
+            padding: var(--spacing-xs) var(--spacing-md);
+            border-radius: var(--radius-sm);
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
+
+        .status-completed {
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--color-accent);
+        }
+
+        .status-in-progress {
+            background: rgba(139, 92, 246, 0.2);
+            color: var(--color-primary);
+        }
+
+        .status-planned {
+            background: rgba(232, 232, 232, 0.5);
+            color: var(--color-gray-dark);
+        }
+
+        .feature-list {
+            list-style: none;
+            margin-top: var(--spacing-md);
+        }
+
+        .feature-list li {
+            padding: var(--spacing-sm) 0;
+            padding-left: var(--spacing-lg);
+            position: relative;
+            color: var(--color-text-muted);
+        }
+
+        .feature-list li:before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: var(--color-primary);
+            font-weight: 700;
+        }
+
+        @media (max-width: 768px) {
+            .support-hero h1 {
+                font-size: 1.875rem;
+            }
+
+            .support-nav {
+                gap: var(--spacing-sm);
+            }
+
+            .support-nav a {
+                padding: var(--spacing-xs) var(--spacing-sm);
+                font-size: 0.875rem;
+            }
+
+            .section {
+                padding: var(--spacing-xl) var(--spacing-md);
+            }
+
+            .contact-links {
+                flex-direction: column;
+            }
+
+            .contact-link {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container navbar-content">
+            <div class="logo">
+                <a href="index.html">
+                    <span class="logo-text">Life Finance</span>
+                </a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="support.html" class="active">Support</a></li>
+                <li><a href="privacy.html">Privacy</a></li>
+                <li><a href="terms.html">Terms</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Support Hero -->
+    <section class="support-hero">
+        <div class="container">
+            <h1>Support Center</h1>
+            <p>Find answers to common questions, report issues, and get in touch with our team. We&apos;re here to help you get the most out of Life Finance.</p>
+        </div>
+    </section>
+
+    <!-- Navigation Menu -->
+    <div class="support-nav">
+        <a href="#faq" class="active">FAQ</a>
+        <a href="#report-bugs">Report Bugs</a>
+        <a href="#feature-requests">Feature Requests</a>
+        <a href="#data-export">Data Export</a>
+        <a href="#data-deletion">Data Deletion</a>
+        <a href="#roadmap">Roadmap</a>
+        <a href="#contact">Contact</a>
+    </div>
+
+    <!-- FAQ Section -->
+    <section id="faq" class="section">
+        <div class="container">
+            <h2>Frequently Asked Questions</h2>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    <span>Is my financial data stored securely?</span>
+                    <span class="faq-toggle">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <p>Yes. Life Finance uses local-first storage, meaning all your financial data stays on your device. We don&apos;t send sensitive information to external servers. Your data is encrypted and protected by your device&apos;s security features. We recommend keeping your device updated with the latest security patches.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    <span>Can I recover deleted transactions?</span>
+                    <span class="faq-toggle">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <p>Once deleted, transactions cannot be recovered unless you have a backup. We strongly recommend regularly exporting your data as a backup. Use the Data Export feature to create periodic backups that you can store safely. This protects you against accidental data loss.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    <span>How do I backup my data?</span>
+                    <span class="faq-toggle">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <p>Life Finance allows you to export all your financial data at any time. Go to Settings → Data Export and choose your preferred format (CSV or JSON). Keep these backups in a secure location, such as cloud storage or an external drive. Regular backups ensure you never lose important financial records.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    <span>Does Life Finance provide financial advice?</span>
+                    <span class="faq-toggle">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <p>No. Life Finance is a personal finance management tool designed to help you track and organize your finances. It does not provide financial, investment, or tax advice. Always consult with a qualified financial advisor or tax professional for investment decisions and tax planning.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    <span>Can I sync my data across multiple devices?</span>
+                    <span class="faq-toggle">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <p>Currently, Life Finance stores data locally on your device. For multi-device access, use the Data Export feature to backup your data and manually import it on another device. Cloud sync is on our roadmap as an optional feature with end-to-end encryption.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    <span>What file formats can I import?</span>
+                    <span class="faq-toggle">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <p>Life Finance currently supports importing and exporting data in CSV and JSON formats. These formats are compatible with most spreadsheet and data analysis tools, making it easy to work with your financial data in other applications.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    <span>Is Life Finance available on iOS and Android?</span>
+                    <span class="faq-toggle">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <p>Life Finance is currently available on Android. iOS support is being developed and will be released soon. You&apos;ll be able to download it from the Google Play Store and Apple App Store respectively. Stay tuned for the iOS launch.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    <span>What should I do if the app crashes?</span>
+                    <span class="faq-toggle">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <p>If Life Finance crashes, please report it using the bug reporting feature or contact us directly at support@lifefi.com with details about when and how the crash occurred. Your feedback helps us improve the app. Include your device model, OS version, and steps to reproduce the issue if possible.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Report Bugs Section -->
+    <section id="report-bugs" class="section">
+        <div class="container">
+            <h2>Report Bugs</h2>
+            <p>Found a bug? Help us improve Life Finance by reporting issues. Please provide as much detail as possible.</p>
+
+            <div class="step-card">
+                <div class="step-number">1</div>
+                <h3>Describe the Issue</h3>
+                <p>Provide a clear description of the bug, including what you were doing when it occurred.</p>
+                <ul class="feature-list">
+                    <li>What action triggered the bug?</li>
+                    <li>What was the expected behavior?</li>
+                    <li>What actually happened?</li>
+                </ul>
+            </div>
+
+            <div class="step-card">
+                <div class="step-number">2</div>
+                <h3>Gather System Information</h3>
+                <p>Include details about your device and app version to help us reproduce the issue.</p>
+                <ul class="feature-list">
+                    <li>Device model and manufacturer</li>
+                    <li>Android/iOS version</li>
+                    <li>Life Finance app version</li>
+                    <li>Steps to reproduce</li>
+                </ul>
+            </div>
+
+            <div class="step-card">
+                <div class="step-number">3</div>
+                <h3>Submit Your Report</h3>
+                <p>Send your bug report through one of these channels:</p>
+                <ul class="feature-list">
+                    <li>Email: support@lifefi.com</li>
+                    <li><a href="https://github.com/lifefi/app/issues" target="_blank" rel="noopener noreferrer">GitHub Issues</a></li>
+                    <li>In-app feedback form (Settings → Help → Send Feedback)</li>
+                </ul>
+            </div>
+
+            <div class="contact-box">
+                <h3>Quick Bug Report</h3>
+                <p>Have a bug to report? Use the fastest method:</p>
+                <div class="contact-links">
+                    <a href="mailto:support@lifefi.com" class="contact-link">Email Report</a>
+                    <a href="https://github.com/lifefi/app/issues" target="_blank" rel="noopener noreferrer" class="contact-link">GitHub Issues</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Feature Requests Section -->
+    <section id="feature-requests" class="section">
+        <div class="container">
+            <h2>Feature Requests</h2>
+            <p>Have an idea to make Life Finance better? We&apos;d love to hear your suggestions. Your feedback shapes the future of the app.</p>
+
+            <div class="step-card">
+                <div class="step-number">1</div>
+                <h3>Check Our Roadmap</h3>
+                <p>Before submitting a feature request, check our roadmap below to see if it&apos;s already planned. This helps us avoid duplicates and keeps everyone informed.</p>
+            </div>
+
+            <div class="step-card">
+                <div class="step-number">2</div>
+                <h3>Describe Your Feature</h3>
+                <p>Clearly explain the feature, why it&apos;s useful, and how it would improve your experience with Life Finance.</p>
+                <ul class="feature-list">
+                    <li>What problem does it solve?</li>
+                    <li>How would you use it?</li>
+                    <li>Who would benefit from it?</li>
+                </ul>
+            </div>
+
+            <div class="step-card">
+                <div class="step-number">3</div>
+                <h3>Submit Your Request</h3>
+                <p>Share your feature ideas:</p>
+                <ul class="feature-list">
+                    <li>Email: features@lifefi.com</li>
+                    <li><a href="https://github.com/lifefi/app/discussions" target="_blank" rel="noopener noreferrer">GitHub Discussions</a></li>
+                    <li>In-app feature request form (Settings → Help → Suggest Feature)</li>
+                </ul>
+            </div>
+
+            <div class="contact-box">
+                <h3>Share Your Ideas</h3>
+                <p>Help us build the features you want:</p>
+                <div class="contact-links">
+                    <a href="mailto:features@lifefi.com" class="contact-link">Feature Request</a>
+                    <a href="https://github.com/lifefi/app/discussions" target="_blank" rel="noopener noreferrer" class="contact-link">GitHub Discussions</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Data Export Section -->
+    <section id="data-export" class="section">
+        <div class="container">
+            <h2>Data Export</h2>
+            <p>Life Finance makes it easy to export all your financial data. You retain full control and ownership of your information.</p>
+
+            <div class="step-card">
+                <div class="step-number">1</div>
+                <h3>Open Settings</h3>
+                <p>Launch Life Finance and navigate to Settings. Look for the &quot;Data Management&quot; or &quot;Privacy&quot; section.</p>
+            </div>
+
+            <div class="step-card">
+                <div class="step-number">2</div>
+                <h3>Choose Export Format</h3>
+                <p>Select your preferred data format:</p>
+                <ul class="feature-list">
+                    <li><strong>CSV:</strong> Compatible with Excel, Google Sheets, and most spreadsheet applications</li>
+                    <li><strong>JSON:</strong> Detailed format for developers and advanced users</li>
+                </ul>
+            </div>
+
+            <div class="step-card">
+                <div class="step-number">3</div>
+                <h3>Export Your Data</h3>
+                <p>Click the &quot;Export Data&quot; button. Your data will be generated and ready to download.</p>
+                <div class="code-block">Example export includes:
+• All transactions (date, amount, category)
+• Accounts and balances
+• Budget settings
+• Tags and notes
+• Complete transaction history</div>
+            </div>
+
+            <div class="step-card">
+                <div class="step-number">4</div>
+                <h3>Save Securely</h3>
+                <p>Save the exported file to a secure location:</p>
+                <ul class="feature-list">
+                    <li>Cloud storage (Google Drive, OneDrive, Dropbox)</li>
+                    <li>External hard drive</li>
+                    <li>Password-protected archive</li>
+                </ul>
+            </div>
+
+            <div class="contact-box">
+                <h3>Need Help Exporting?</h3>
+                <p>If you encounter any issues during export:</p>
+                <div class="contact-links">
+                    <a href="mailto:support@lifefi.com" class="contact-link">Contact Support</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Data Deletion Section -->
+    <section id="data-deletion" class="section">
+        <div class="container">
+            <h2>Data Deletion</h2>
+            <p>You have complete control over your data. Delete individual items or perform a complete account reset at any time.</p>
+
+            <div class="step-card">
+                <div class="step-number">1</div>
+                <h3>Delete Individual Transactions</h3>
+                <p>Swipe or tap the delete icon on any transaction to remove it. Deleted transactions cannot be recovered unless you have a backup.</p>
+                <p style="color: #dc2626; margin-top: var(--spacing-md);"><strong>⚠ Warning:</strong> This action is permanent. Consider exporting your data first as a backup.</p>
+            </div>
+
+            <div class="step-card">
+                <div class="step-number">2</div>
+                <h3>Clear Account Data</h3>
+                <p>To delete all financial data from Life Finance:</p>
+                <ul class="feature-list">
+                    <li>Go to Settings → Data Management</li>
+                    <li>Select &quot;Clear All Data&quot;</li>
+                    <li>Confirm the action (you&apos;ll need to enter your PIN or authentication)</li>
+                </ul>
+                <p style="color: #dc2626; margin-top: var(--spacing-md);"><strong>⚠ Warning:</strong> This will permanently delete all transactions, accounts, and settings. This action cannot be undone.</p>
+            </div>
+
+            <div class="step-card">
+                <div class="step-number">3</div>
+                <h3>Uninstall the App</h3>
+                <p>Uninstalling Life Finance will not automatically delete your data from the device. Manually clear app data through your device settings for complete removal.</p>
+                <ul class="feature-list">
+                    <li>Android: Settings → Apps → Life Finance → Storage → Clear Cache/Clear Data</li>
+                    <li>iOS: Settings → General → iPhone Storage → Life Finance → Offload App</li>
+                </ul>
+            </div>
+
+            <div class="step-card">
+                <div class="step-number">4</div>
+                <h3>Request Data Deletion</h3>
+                <p>If you need additional assistance with data deletion or have privacy concerns, contact our support team:</p>
+                <div class="code-block">Email: privacy@lifefi.com
+Subject: Data Deletion Request
+Include: Your account details and specific deletion requests</div>
+            </div>
+
+            <div class="contact-box">
+                <h3>Data Retention Policy</h3>
+                <p>We do not retain copies of deleted data on our servers (as we store data locally). Once deleted from your device, it&apos;s permanently gone. For complete data deletion, contact our privacy team.</p>
+                <div class="contact-links">
+                    <a href="mailto:privacy@lifefi.com" class="contact-link">Privacy Request</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Roadmap Section -->
+    <section id="roadmap" class="section">
+        <div class="container">
+            <h2>Product Roadmap</h2>
+            <p>Here&apos;s what we&apos;re working on and what&apos;s coming next. This roadmap is subject to change based on user feedback and priorities.</p>
+
+            <h3 style="margin-top: var(--spacing-xl); margin-bottom: var(--spacing-lg);">Recently Completed ✓</h3>
+            <div class="roadmap-item">
+                <div>
+                    <h4>Core Transaction Tracking</h4>
+                    <p>Complete expense and income tracking with categories, tags, and detailed notes.</p>
+                </div>
+                <span class="roadmap-status status-completed">Completed</span>
+            </div>
+            <div class="roadmap-item">
+                <div>
+                    <h4>Multi-Account Support</h4>
+                    <p>Manage multiple accounts (checking, savings, credit cards) in one place.</p>
+                </div>
+                <span class="roadmap-status status-completed">Completed</span>
+            </div>
+            <div class="roadmap-item">
+                <div>
+                    <h4>Budget Management</h4>
+                    <p>Set and track budgets by category with visual progress indicators.</p>
+                </div>
+                <span class="roadmap-status status-completed">Completed</span>
+            </div>
+            <div class="roadmap-item">
+                <div>
+                    <h4>Data Export</h4>
+                    <p>Export financial data in CSV and JSON formats for backup and analysis.</p>
+                </div>
+                <span class="roadmap-status status-completed">Completed</span>
+            </div>
+
+            <h3 style="margin-top: var(--spacing-xl); margin-bottom: var(--spacing-lg);">In Progress 🚀</h3>
+            <div class="roadmap-item">
+                <div>
+                    <h4>iOS App Launch</h4>
+                    <p>Native iOS application coming to Apple App Store with full feature parity.</p>
+                </div>
+                <span class="roadmap-status status-in-progress">In Progress</span>
+            </div>
+            <div class="roadmap-item">
+                <div>
+                    <h4>Advanced Analytics</h4>
+                    <p>Spending trends, charts, insights, and financial health analysis.</p>
+                </div>
+                <span class="roadmap-status status-in-progress">In Progress</span>
+            </div>
+            <div class="roadmap-item">
+                <div>
+                    <h4>Cloud Backup (Optional)</h4>
+                    <p>Optional encrypted cloud backup with end-to-end encryption and user control.</p>
+                </div>
+                <span class="roadmap-status status-in-progress">In Progress</span>
+            </div>
+
+            <h3 style="margin-top: var(--spacing-xl); margin-bottom: var(--spacing-lg);">Planned Features 📋</h3>
+            <div class="roadmap-item">
+                <div>
+                    <h4>Recurring Transactions</h4>
+                    <p>Automatic tracking of recurring payments and income.</p>
+                </div>
+                <span class="roadmap-status status-planned">Planned</span>
+            </div>
+            <div class="roadmap-item">
+                <div>
+                    <h4>Receipt Scanning</h4>
+                    <p>Capture receipts with OCR to auto-extract transaction details.</p>
+                </div>
+                <span class="roadmap-status status-planned">Planned</span>
+            </div>
+            <div class="roadmap-item">
+                <div>
+                    <h4>Bank Import</h4>
+                    <p>Securely import transactions from connected banks (read-only).</p>
+                </div>
+                <span class="roadmap-status status-planned">Planned</span>
+            </div>
+            <div class="roadmap-item">
+                <div>
+                    <h4>Multi-Currency Support</h4>
+                    <p>Track transactions in multiple currencies with real-time conversion.</p>
+                </div>
+                <span class="roadmap-status status-planned">Planned</span>
+            </div>
+            <div class="roadmap-item">
+                <div>
+                    <h4>Shared Accounts</h4>
+                    <p>Securely share finances with family or business partners.</p>
+                </div>
+                <span class="roadmap-status status-planned">Planned</span>
+            </div>
+            <div class="roadmap-item">
+                <div>
+                    <h4>Goal Tracking</h4>
+                    <p>Set and monitor savings goals with progress visualization.</p>
+                </div>
+                <span class="roadmap-status status-planned">Planned</span>
+            </div>
+
+            <div class="contact-box" style="margin-top: var(--spacing-xxl);">
+                <h3>Have a Feature Idea?</h3>
+                <p>Your feedback drives our roadmap. If you have a feature request, please let us know:</p>
+                <div class="contact-links">
+                    <a href="mailto:features@lifefi.com" class="contact-link">Suggest Feature</a>
+                    <a href="https://github.com/lifefi/app/discussions" target="_blank" rel="noopener noreferrer" class="contact-link">Vote on Features</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="section">
+        <div class="container">
+            <h2>Get in Touch</h2>
+            <p>Can&apos;t find the answer you&apos;re looking for? We&apos;re here to help. Reach out through any of these channels.</p>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: var(--spacing-lg); margin-top: var(--spacing-xl);">
+                <div class="step-card">
+                    <h3>Email Support</h3>
+                    <p>Have a question or issue? Email our support team and we&apos;ll get back to you as soon as possible.</p>
+                    <p><strong>support@lifefi.com</strong></p>
+                    <p style="font-size: 0.875rem; color: var(--color-gray-dark);">Response time: 24-48 hours</p>
+                </div>
+
+                <div class="step-card">
+                    <h3>GitHub Issues</h3>
+                    <p>Report bugs and track issues on our GitHub repository. Great for developers and technical users.</p>
+                    <p><a href="https://github.com/lifefi/app/issues" target="_blank" rel="noopener noreferrer" style="color: var(--color-primary); font-weight: 600;">github.com/lifefi/app/issues</a></p>
+                    <p style="font-size: 0.875rem; color: var(--color-gray-dark);">Community-driven issue tracking</p>
+                </div>
+
+                <div class="step-card">
+                    <h3>Feature Requests</h3>
+                    <p>Have an idea? Share your feature requests and vote on features from other users.</p>
+                    <p><strong>features@lifefi.com</strong></p>
+                    <p style="font-size: 0.875rem; color: var(--color-gray-dark);">We read all suggestions</p>
+                </div>
+
+                <div class="step-card">
+                    <h3>Privacy Concerns</h3>
+                    <p>Questions about privacy, data handling, or GDPR compliance? Contact our privacy team.</p>
+                    <p><strong>privacy@lifefi.com</strong></p>
+                    <p style="font-size: 0.875rem; color: var(--color-gray-dark);">Response time: 72 hours</p>
+                </div>
+
+                <div class="step-card">
+                    <h3>In-App Help</h3>
+                    <p>Access help directly from the app. Settings → Help for guides, FAQs, and feedback options.</p>
+                    <p><strong>In-app support chat</strong></p>
+                    <p style="font-size: 0.875rem; color: var(--color-gray-dark);">Instant access to resources</p>
+                </div>
+
+                <div class="step-card">
+                    <h3>Social Media</h3>
+                    <p>Follow us for updates, tips, and announcements about Life Finance.</p>
+                    <p>
+                        <a href="https://twitter.com/lifefi" target="_blank" rel="noopener noreferrer">Twitter</a> • 
+                        <a href="https://instagram.com/lifefi" target="_blank" rel="noopener noreferrer">Instagram</a>
+                    </p>
+                    <p style="font-size: 0.875rem; color: var(--color-gray-dark);">News and announcements</p>
+                </div>
+            </div>
+
+            <div class="contact-box" style="margin-top: var(--spacing-xxl);">
+                <h3>What&apos;s the Best Way to Contact Us?</h3>
+                <p>
+                    <strong>Bug Report?</strong> Use GitHub Issues for fastest response.<br>
+                    <strong>Feature Idea?</strong> Email features@lifefi.com or GitHub Discussions.<br>
+                    <strong>General Question?</strong> Email support@lifefi.com.<br>
+                    <strong>Privacy Question?</strong> Email privacy@lifefi.com.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--spacing-lg); margin-bottom: var(--spacing-lg);">
+                <div>
+                    <h4 style="margin-bottom: var(--spacing-md);">Product</h4>
+                    <ul class="feature-list">
+                        <li><a href="index.html">Features</a></li>
+                        <li><a href="support.html">Support</a></li>
+                        <li><a href="#roadmap">Roadmap</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 style="margin-bottom: var(--spacing-md);">Legal</h4>
+                    <ul class="feature-list">
+                        <li><a href="privacy.html">Privacy Policy</a></li>
+                        <li><a href="terms.html">Terms of Service</a></li>
+                        <li><a href="support.html">Support</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 style="margin-bottom: var(--spacing-md);">Community</h4>
+                    <ul class="feature-list">
+                        <li><a href="https://github.com/lifefi" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+                        <li><a href="https://twitter.com/lifefi" target="_blank" rel="noopener noreferrer">Twitter</a></li>
+                        <li><a href="https://instagram.com/lifefi" target="_blank" rel="noopener noreferrer">Instagram</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div style="border-top: 1px solid var(--color-gray); padding-top: var(--spacing-lg); text-align: center; color: var(--color-text-muted);">
+                <p>&copy; 2024 Life Finance. All rights reserved. | <a href="privacy.html">Privacy</a> | <a href="terms.html">Terms</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        /* ============================================
+           SUPPORT PAGE FUNCTIONALITY
+           ============================================ */
+
+        // Toggle FAQ answers
+        function toggleFAQ(element) {
+            const question = element;
+            const answer = question.nextElementSibling;
+            const isActive = question.classList.contains('active');
+
+            // Close all other FAQs
+            document.querySelectorAll('.faq-question').forEach(q => {
+                if (q !== question && q.classList.contains('active')) {
+                    q.classList.remove('active');
+                    q.nextElementSibling.classList.remove('active');
+                }
+            });
+
+            // Toggle current FAQ
+            question.classList.toggle('active');
+            answer.classList.toggle('active');
+        }
+
+        // Update active navigation link on scroll
+        function updateActiveNavLink() {
+            const sections = document.querySelectorAll('section[id]');
+            const navLinks = document.querySelectorAll('.support-nav a');
+
+            sections.forEach(section => {
+                const top = section.offsetTop;
+                const height = section.offsetHeight;
+                const id = section.getAttribute('id');
+
+                if (window.scrollY >= top - 250 && window.scrollY < top + height - 250) {
+                    navLinks.forEach(link => link.classList.remove('active'));
+                    document.querySelector(`.support-nav a[href="#${id}"]`)?.classList.add('active');
+                }
+            });
+        }
+
+        // Smooth scroll for navigation links
+        document.querySelectorAll('.support-nav a').forEach(link => {
+            link.addEventListener('click', (e) => {
+                const href = link.getAttribute('href');
+                if (href.startsWith('#')) {
+                    e.preventDefault();
+                    const target = document.querySelector(href);
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth' });
+                    }
+                }
+            });
+        });
+
+        // Update active link on scroll
+        window.addEventListener('scroll', updateActiveNavLink);
+        updateActiveNavLink(); // Initial check
+
+        // Active navbar on scroll
+        const navbar = document.querySelector('.navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 10) {
+                navbar.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.1)';
+            } else {
+                navbar.style.boxShadow = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
